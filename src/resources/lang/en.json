@@ -1,0 +1,86 @@
+{
+	"user": {
+		"login": {
+			"passwordNotFound": "Password can't be empty.",
+			"userNameNotFound": "User name can't be empty",
+			"userLastNameNotFound": "User last name can't be empty.",
+			"userIdNotFound": "User id can't be empty.",
+			"emailNotFound": "Email can't be empty.",
+			"genderNotFound": "Gender can't be empty.",
+			"userNameDetailFailed": "User details failed",
+			"userRegistrationOk": "User registration successful.",
+			"userRegistrationFailed": "User registration unsuccessful.",
+			"userLoginOk": "User logged in.",
+			"userLoginFailed": "Incorrect email or password."
+		},
+		"register": {
+			"emailAlreadyTaken": "This email has already been taken"
+		},
+		"unauthorize": {
+			"noToken": "No token",
+			"invalidToken": "Invalid token",
+			"invalidAdminToken": "Invalid admin token",
+			"invalidSellerToken": "Invalid seller token",
+			"invalidAdminOrSeller": "Invalid admin or seller token",
+			"invalidRefreshToken": "Invalid refresh token",
+			"noRefreshToken": "No refresh token"
+		},
+		"profile": {
+			"userNotFound": "User does not exits.",
+			"invalidUserId": "Invalid user id."
+		},
+		"update": {
+			"userNotFound": "User does not exits.",
+			"incorrectCurrentPassword": "Incorrect current password.",
+			"currPawdNewPwdNotdifferent": "Current password and new password must be different"
+		},
+		"delete": {
+			"cannotDeleteAdmin": "Can Not Delete Admin User"
+		},
+		"others": {
+			"invalidUserId": "Invalid user id.",
+			"newAndConfirmPwdMustBeSame": "New and confirm password must same"
+		},
+		"assign": {
+			"roleAlreadyAssigned": "This role is already assigned to this user."
+		},
+		"unassign": {
+			"notHaveThisRole": "User does not have this role."
+		}
+	},
+	"others": {
+		"routeNotFound": "Route not found"
+	},
+	"role": {
+		"show": {
+			"roleNotFound": "Role does not exits."
+		},
+		"others": {
+			"invalidRoleId": "Invalid role id."
+		}
+	},
+	"gender": {
+		"show": {
+			"genderNotFound": "Gender does not exits."
+		},
+		"others": {
+			"invalidGenderId": "Invalid gender id."
+		}
+	},
+	"country": {
+		"countryNotFound": "Country does not exits",
+		"invalidCountryId": "Invalid country id"
+	},
+	"state": {
+		"stateNotFound": "State does not exits",
+		"invalidStateId": "Invalid state id"
+	},
+	"config": {
+		"cache": {
+			"redis": {
+				"redisConnectionTo": "Redis connection to",
+				"failed": "failed"
+			}
+		}
+	}
+}

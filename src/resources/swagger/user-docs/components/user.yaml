@@ -1,0 +1,182 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        first_name:
+          type: string
+        last_name: 
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        gender:
+          type: integer
+        roles:
+          type: array
+          items:
+        billing_address:
+          type: object
+          properties:
+            first_name:
+              type: string
+            last_name: 
+              type: string
+            company:
+              type: string
+            address1:
+              type: string
+            address2:
+              type: string
+            city:
+              type: string
+            postal_code:
+              type: number
+            country:
+              type: string
+            state:
+              type: string
+            phone:
+              type: string
+            email:
+              type: string
+        delivery_address:
+          type: object
+          properties:
+            first_name:
+              type: string
+            last_name: 
+              type: string
+            company:
+              type: string
+            address1:
+              type: string
+            address2:
+              type: string
+            city:
+              type: string
+            postal_code:
+              type: number
+            country:
+              type: string
+            state:
+              type: string
+            phone:
+              type: string
+            email:
+              type: string
+        vendor: 
+          type: object
+          properties:
+            personal_info:
+              type: object
+              properties:
+                country:
+                  type: string
+                state:
+                  type: string
+                currency:
+                  type: string
+                log:
+                  type: string
+                description:
+                  type: string
+                rating:
+                  type: number
+                num_reviews:
+                  type: number
+            store_info:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+                address1:
+                  type: string
+                address2:
+                  type: string
+                city:
+                  type: string
+                zip_code:
+                  type: string
+                country:
+                  type: string
+                state:
+                  type: string
+                business_hour:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      day:
+                        type: string
+                      start_time:
+                        type: string
+                      end_time:
+                        type: string
+                      created_at:
+                        type: string
+                        format: date-time
+                      updated_at:
+                        type: string
+                        format: date-time
+                email:
+                  type: string
+                phone:
+                  type: string
+                facebook:
+                  type: string
+                twitter:
+                  type: string
+                linkedin:
+                  type: string
+                youtube:
+                  type: string
+                instagram:
+                  type: string
+                is_open:
+                  type: string
+            payment_options:
+              type: object
+              properties:
+                bank_name:
+                  type: string
+                account_name:
+                  type: string
+                account_number:
+                  type: number
+                bank_address:
+                  type: string
+                routing_number:
+                  type: number
+                bank_iban:
+                  type: number
+                bank_swift:
+                  type: string
+            vendor_options:
+              type: object
+              properties:
+                selling:
+                  type: boolean
+                publishing:
+                  type: boolean
+                feature_vendor:
+                  type: boolean
+        online:
+          type: boolean
+        is_deleted:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time

@@ -1,0 +1,68 @@
+[{
+    "_id": {
+      "$oid": "649496aa7a2c013d3238f50c"
+    },
+    "created_at": {
+      "$date": "2023-06-22T18:44:58.402Z"
+    },
+    "updated_at": {
+      "$date": "2023-06-22T18:44:58.402Z"
+    },
+    "__v": 0,
+    "priority": 1,
+    "name": {
+      "en": "Administrator",
+      "fr": "Administrateur"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "649496b47a2c013d3238f50e"
+    },
+    "created_at": {
+      "$date": "2023-06-22T18:45:08.586Z"
+    },
+    "updated_at": {
+      "$date": "2023-06-22T18:45:08.586Z"
+    },
+    "__v": 0,
+    "priority": 2,
+    "name": {
+      "en": "Vendor",
+      "fr": "Vendeur"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "64c6a7429bf875fdfa4c61ed"
+    },
+    "created_at": {
+      "$date": "2023-07-30T18:09:06.276Z"
+    },
+    "updated_at": {
+      "$date": "2023-07-30T18:09:06.276Z"
+    },
+    "__v": 0,
+    "priority": 3,
+    "name": {
+      "en": "Customer",
+      "fr": "Client"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "64c6a75a9bf875fdfa4c61ef"
+    },
+    "created_at": {
+      "$date": "2023-07-30T18:09:30.236Z"
+    },
+    "updated_at": {
+      "$date": "2023-07-30T18:09:30.236Z"
+    },
+    "__v": 0,
+    "priority": 4,
+    "name": {
+      "en": "Subscriber",
+      "fr": "Abonné"
+    }
+  }]

@@ -1,0 +1,20 @@
+components:
+  schemas:
+    Gender:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: object
+          properties:
+            en:
+              type: string
+            ar:
+              type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time

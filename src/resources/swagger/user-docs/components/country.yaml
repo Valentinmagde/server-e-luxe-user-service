@@ -1,0 +1,143 @@
+components:
+  schemas:
+    Country:
+      type: object
+      properties:
+        _id:
+          type: string
+        id:
+          type: number
+          description: The country ID.
+          example: 1
+        name:
+          type: string
+          description: The country name.
+          example: Cameroon
+        iso3:
+          type: string
+          description: The country iso3 code (three characters).
+          example: ALB
+        iso2:
+          type: string
+          description: The country iso2 code (two characters).
+          example: AL
+        numeric_code:
+          type: string
+          description: The country numeric code.
+          example: 008
+        phone_code:
+          type: string
+          description: The country phone code.
+          example: 355
+        currency:
+          type: string
+          description: The country currency.
+          example: ALL
+        currency_name:
+          type: string
+          description: The country currency name.
+          example: Albanian lek
+        currency_symbol:
+          type: string
+          description: The country currency symbol.
+          example: Lek
+        tld:
+          type: string
+          description: The country tld.
+          example: .al
+        latitude:
+          type: string
+          description: The country latitude.
+          example: 41.00000000
+        longitude:
+          type: string
+          description: The country latitude.
+          example: 20.00000000
+        emoji:
+          type: string
+          description: The country emoji.
+          example: 🇦🇱
+        emojiU:
+          type: string
+          description: The country emojiU.
+          example: U+1F1E6 U+1F1F1
+        capital:
+          type: string
+          description: The country capital
+          example: Yaounde
+        native:
+          type: string
+          description: The country native
+          example: Cameroon
+        region:
+          type: string
+          description: The country region
+          example: Africa
+        subregion:
+          type: string
+          description: The country subregion
+          example: Middle Africa
+        timezones:
+          type: array
+          items:
+            type: object
+            properties:
+              zoneName:
+                type: string
+                description: The country zoneName
+                example: Africa/Douala
+              gmtOffset:
+                type: number
+                description: The country gmt offset
+                example: 3600
+              gmtOffsetName:
+                type: string
+                description: The country gmt offset name
+                example: UTC+01:0
+              abbreviation:
+                type: string
+                description: The country abbreviation
+                example: WAT
+              tzName:
+                type: string
+                description: The country timezone name
+                example: WAT
+        translations:
+          type: object
+          properties:
+            kr:
+              type: string
+            pt-BR:
+              type: string
+            pt:
+              type: string
+            nl:
+              type: string
+            hr:
+              type: string
+            fa:
+              type: string
+            de:
+              type: string
+            fr:
+              type: string
+            es:
+              type: string
+            ja:
+              type: string
+            it:
+              type: string
+            cn:
+              type: string
+            tr:
+              type: string
+        states:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time

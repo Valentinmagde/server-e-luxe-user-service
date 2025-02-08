@@ -1,0 +1,31 @@
+components:
+  schemas:
+    State:
+      type: object
+      properties:
+        _id:
+          type: string
+        id:
+          type: number
+        name:
+          type: string
+        country_id:
+          type: string
+        country_code:
+          type: string
+        country_name:
+          type: string
+        state_code:
+          type: string
+        type:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
