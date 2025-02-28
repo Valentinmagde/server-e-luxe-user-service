@@ -404,7 +404,17 @@ class UserController {
                   };
 
                   return customResponse.error(response, res);
-                } else {
+                }
+                else if(result === "INACTIVE_USER") {
+                  const response = {
+                    status: statusCode.httpBadRequest,
+                    errNo: errorNumbers.badLoginCredentials,
+                    errMsg: i18n.__("user.login.inactiveUser"),
+                  };
+
+                  return customResponse.error(response, res);
+                }
+                else {
                   const response = {
                     status: statusCode.httpOk,
                     data: result,

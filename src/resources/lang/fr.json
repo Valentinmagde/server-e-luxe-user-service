@@ -11,7 +11,8 @@
             "userRegistrationOk": "L'enregistrement de l'utilisateur a été effectué avec succès.",
             "userRegistrationFailed": "L'enregistrement de l'utilisateur n'a pas abouti.",
             "userLoginOk": "Utilisateur connecté.",
-            "userLoginFailed": "Email ou mot de passe incorrect."
+            "userLoginFailed": "Email ou mot de passe incorrect.",
+            "inactiveUser": "Votre compte est inactif. Veuillez contacter le support."
         },
         "register": {
 			"emailAlreadyTaken": "Cet e-mail a déjà été pris"

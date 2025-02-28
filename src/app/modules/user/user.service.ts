@@ -37,6 +37,10 @@ class UserService {
             .populate("role")
             .select("+password");
 
+          if(user && user.status === "Inactive") {
+            resolve("INACTIVE_USER");
+          }
+
           if (user && passwordHash.compareHash(data.password, user.password)) {
             await User.findOneAndUpdate(
               { email: data.email },
@@ -468,34 +472,29 @@ class UserService {
         try {
           const user: any = await User.findById(userId).select("+password");
 
-          if (user) {
+          if (!user) resolve(null);
+
+          if (data.current_password) {
             if (
-              data.current_password &&
               !passwordHash.compareHash(data.current_password, user.password)
             ) {
               resolve("INCORRECT_PASSWORD");
-            } else if (
-              data.current_password &&
-              data.current_password === data.new_password
-            ) {
-              resolve("NEW_PASSWORD_MUST_BE_DIFFERENT");
-            } else if (data.current_password) {
-              user.password = passwordHash.createHash(data.new_password);
             }
-
-            data.password =
-              (data.password && passwordHash.createHash(data.password)) ||
-              user.password;
-
-            const updateObject = { ...user.toObject(), ...data };
-            console.log(updateObject);
-
-            await User.updateOne({ _id: userId }, { $set: updateObject });
-
-            resolve(updateObject);
-          } else {
-            resolve(user);
+            if (data.current_password === data.new_password) {
+              resolve("NEW_PASSWORD_MUST_BE_DIFFERENT");
+            }
+            user.password = passwordHash.createHash(data.new_password);
           }
+
+          data.password = data.password
+            ? passwordHash.createHash(data.password)
+            : user.password;
+
+          const updateObject = { ...user.toObject(), ...data };
+
+          await User.updateOne({ _id: userId }, { $set: updateObject });
+
+          resolve(updateObject);
         } catch (error) {
           reject(error);
         }

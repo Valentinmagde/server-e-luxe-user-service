@@ -11,7 +11,8 @@
 			"userRegistrationOk": "User registration successful.",
 			"userRegistrationFailed": "User registration unsuccessful.",
 			"userLoginOk": "User logged in.",
-			"userLoginFailed": "Incorrect email or password."
+			"userLoginFailed": "Incorrect email or password.",
+			"inactiveUser": "Your account is inactive. Please contact support."
 		},
 		"register": {
 			"emailAlreadyTaken": "This email has already been taken"
