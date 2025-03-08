@@ -123,7 +123,7 @@ class UserService {
       (async () => {
         try {
           // Find the ObjectId for the "Customer" role
-          const customerRole = await Role.findOne({ name: "Customer" });
+          const customerRole = await Role.findOne({ slug: "customer" });
           const customerRoleId = customerRole ? customerRole._id : null;
 
           const users = await User.find({
@@ -161,7 +161,7 @@ class UserService {
       (async () => {
         try {
           // Find the ObjectId for the "Customer" role
-          const customerRole = await Role.findOne({ "name.en": "Customer" });
+          const customerRole = await Role.findOne({ "slug": "customer" });
           const customerRoleId = customerRole ? customerRole._id : null;
 
           const users = await User.find({

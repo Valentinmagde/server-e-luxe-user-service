@@ -1,3 +1,4 @@
+import { slugify } from "../../utils/helpers.util";
 import Role from "./role.model";
 import RoleType from "./role.type";
 
@@ -66,6 +67,10 @@ class RoleService {
     return new Promise((resolve, reject) => {
       (async () => {
         try {
+          if(!data?.slug) {
+            data.slug = slugify(data?.name?.en || data?.name?.fr);
+          }
+
           const role = new Role(data);
 
           const createdRole = await role.save();
@@ -98,7 +103,9 @@ class RoleService {
           const role = await Role.findById(roleId);
 
           if (role) {
-            role.name = data.name || role.name;
+            role.name = { ...role.name, ...data.name };
+            role.slug = data.slug || role.slug || slugify(role?.name?.en || role?.name?.fr);
+            role.priority = data?.priority || role?.priority;
 
             const updatedRole = await role.save();
 

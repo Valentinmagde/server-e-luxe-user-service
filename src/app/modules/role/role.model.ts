@@ -2,7 +2,9 @@ import mongoose from 'mongoose';
 
 const roleSchema = new mongoose.Schema(
   {
-    name: { type: Object, required: true }
+    name: { type: Object, required: true },
+    priority: { type: Number, required: true },
+    slug: { type: String, required: true }
   },
   {
     timestamps: {

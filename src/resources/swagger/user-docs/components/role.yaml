@@ -6,7 +6,16 @@ components:
         _id:
           type: string
         name:
+          type: object
+          properties:
+            en:
+              type: string
+            fr:
+              type: string
+        slug:
           type: string
+        priority:
+          type: integer
         createdAt:
           type: string
           format: date-time

@@ -62,37 +62,42 @@ class RoleRoutes {
              *     requestBody:
              *       required: true
              *       content:
-             *         application/x-www-form-urlencoded:
-             *           schema:
-             *             type: object
-             *             properties:
-             *               name:
-             *                 type: string
-             *                 description: The role's name.
-             *                 example: Admin
-             *               priority:
-             *                 type: number
-             *                 description: The role's priority.
-             *                 example: 1
-             *             required:
-             *               - name
-             *               - priority
-             *
              *         application/json:
              *           schema:
              *             type: object
              *             properties:
              *               name:
-             *                 type: string
+             *                 type: object
              *                 description: The role's name.
-             *                 example: Admin
+             *                 properties:
+             *                   en:
+             *                     type: string
+             *                     example: Administrator
+             *                   fr:
+             *                     type: string
+             *                     example: Administrateur
              *               priority:
              *                 type: number
              *                 description: The role's priority.
-             *                 example: 1
+             *               slug:
+             *                 type: string
+             *                 description: |
+             *                    The Role slug.
+             *
+             *                    A string can be qualified as a slug if it
+             *                    meets the following criteria:
+             *                    - It consists of lowercase alphanumeric
+             *                      characters (a-z, 0-9) and hyphens (-).
+             *                    - It does not contain any spaces, special
+             *                      characters, or accented characters.
+             *                    - It accurately and concisely describes the
+             *                      content of the resource it identifies.
+             *                    - It is unique within the context of the
+             *                      website or application.
              *             required:
              *               - name
              *               - priority
+             *
              *
              *     responses:
              *       201:
@@ -317,11 +322,36 @@ class RoleRoutes {
              *             type: object
              *             properties:
              *               name:
-             *                 type: string
+             *                 type: object
              *                 description: The role's name.
-             *                 example: Admin
+             *                 properties:
+             *                   en:
+             *                     type: string
+             *                     example: Administrator
+             *                   fr:
+             *                     type: string
+             *                     example: Administrateur
+             *               priority:
+             *                 type: number
+             *                 description: The role's priority.
+             *               slug:
+             *                 type: string
+             *                 description: |
+             *                    The Role slug.
+             *
+             *                    A string can be qualified as a slug if it
+             *                    meets the following criteria:
+             *                    - It consists of lowercase alphanumeric
+             *                      characters (a-z, 0-9) and hyphens (-).
+             *                    - It does not contain any spaces, special
+             *                      characters, or accented characters.
+             *                    - It accurately and concisely describes the
+             *                      content of the resource it identifies.
+             *                    - It is unique within the context of the
+             *                      website or application.
              *             required:
              *               - name
+             *               - priority
              *         application/x-www-form-urlencoded:
              *           schema:
              *             type: object

@@ -125,7 +125,7 @@ class RoleController {
    */
   public async store(req: Request, res: Response): Promise<void> {
     const validationRule = {
-      name: "required|string",
+      name: "required",
       priority:"required",
     };
 
@@ -190,7 +190,7 @@ class RoleController {
    * @return {Promise<void>} the eventual completion or failure
    */
   public async update(req: Request, res: Response): Promise<void> {
-    const validationRule = { name: "required|string" };
+    const validationRule = { name: "required" };
 
     await validator
       .validator(
