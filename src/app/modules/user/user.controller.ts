@@ -14,7 +14,7 @@ import {
   loadTemplate,
   removeFirstLastSlash,
 } from "../../utils/helpers.util";
-import * as path from "path";
+// import * as path from "path";
 import UserType from "./user.type";
 
 /**
@@ -24,7 +24,6 @@ import UserType from "./user.type";
  * Class UserController
  */
 class UserController {
-
   /**
    * Constructs a new instance of the UserController class.
    *
@@ -89,6 +88,39 @@ class UserController {
 
       return customResponse.error(response, res);
     }
+  }
+
+  /**
+   * Get users by role
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2025-03-11
+   *
+   * @param {Request} req the http request
+   * @param {Response} res the http response
+   *
+   * @return {Promise<void>} the eventual completion or failure
+   */
+  public async getUsersByRoles(req: Request, res: Response): Promise<void> {
+    userService
+      .getUsersByRoles(req.query)
+      .then((result) => {
+        const response = {
+          status: statusCode.httpOk,
+          data: result,
+        };
+
+        return customResponse.success(response, res);
+      })
+      .catch((error) => {
+        const response = {
+          status: error?.status || statusCode.httpInternalServerError,
+          errNo: errorNumbers.genericError,
+          errMsg: error?.message || error,
+        };
+
+        return customResponse.error(response, res);
+      });
   }
 
   /**
@@ -404,8 +436,7 @@ class UserController {
                   };
 
                   return customResponse.error(response, res);
-                }
-                else if(result === "INACTIVE_USER") {
+                } else if (result === "INACTIVE_USER") {
                   const response = {
                     status: statusCode.httpBadRequest,
                     errNo: errorNumbers.badLoginCredentials,
@@ -413,8 +444,7 @@ class UserController {
                   };
 
                   return customResponse.error(response, res);
-                }
-                else {
+                } else {
                   const response = {
                     status: statusCode.httpOk,
                     data: result,
@@ -481,7 +511,7 @@ class UserController {
             return customResponse.error(response, res);
           } else {
             userService
-              .register(req.body, req.files)
+              .register(req.body)
               .then((result) => {
                 if (result === "EMAIL_ALREADY_TAKEN") {
                   const response = {
@@ -761,7 +791,7 @@ class UserController {
                     receivers: body.email,
                     subject:
                       body.subject || "Password Reset Request - 24 Hours Only",
-                    body: emailHtml
+                    body: emailHtml,
                   })
                   .then((result) => {
                     const response = {

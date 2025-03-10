@@ -4,9 +4,9 @@ import Role from "../role/role.model";
 import UserType from "./user.type";
 import RoleType from "../role/role.type";
 import * as jsonpatch from "fast-json-patch";
-import Gender from "../gender/gender.model";
-import uploadFile from "../../utils/upload-single";
-import { createMongooseId } from "../../utils/helpers.util";
+// import Gender from "../gender/gender.model";
+// import uploadFile from "../../utils/upload-single";
+// import { createMongooseId } from "../../utils/helpers.util";
 
 /**
  * @author Valentin Magde <valentinmagde@gmail.com>
@@ -37,7 +37,7 @@ class UserService {
             .populate("role")
             .select("+password");
 
-          if(user && user.status === "Inactive") {
+          if (user && user.status === "Inactive") {
             resolve("INACTIVE_USER");
           }
 
@@ -111,6 +111,61 @@ class UserService {
   }
 
   /**
+   * Get users by roles with pagination and sorting.
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2025-03-11
+   *
+   * @param {any} query - The query object containing roles, page, limit, and sort.
+   * @return {Promise<unknown>} A promise that resolves to an array of users.
+   */
+  public async getUsersByRoles(query: any): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          const {
+            roles,
+            page = 1,
+            limit = 12,
+            sort = "created_at:desc",
+          } = query;
+          const skip = (page - 1) * limit;
+          const [sortField, sortOrder] = sort.toString().split(":");
+
+          // Convertir `roles` en tableau de chaînes
+          const rolesArray =
+            typeof roles === "string"
+              ? roles.split(",")
+              : Array.isArray(roles)
+              ? roles.map((role) => role.toString())
+              : [];
+
+          let filter = {};
+          if (rolesArray.length > 0) {
+            // Trouver les rôles correspondants dans la base de données
+            const roleDocuments = await Role.find({
+              slug: { $in: rolesArray.map((role) => role.trim()) },
+            });
+
+            // Filtrer les utilisateurs par les IDs des rôles trouvés
+            filter = { roles: { $in: roleDocuments.map((role) => role._id) } };
+          }
+
+          // Trouver les utilisateurs avec pagination et tri
+          const users = await User.find(filter)
+            .sort({ [sortField]: sortOrder === "desc" ? -1 : 1 })
+            .skip(skip)
+            .limit(limit);
+
+          resolve(users);
+        } catch (error) {
+          reject(error);
+        }
+      })();
+    });
+  }
+
+  /**
    * Get all customers.
    *
    * @author Valentin Magde <valentinmagde@gmail.com>
@@ -161,7 +216,7 @@ class UserService {
       (async () => {
         try {
           // Find the ObjectId for the "Customer" role
-          const customerRole = await Role.findOne({ "slug": "customer" });
+          const customerRole = await Role.findOne({ slug: "customer" });
           const customerRoleId = customerRole ? customerRole._id : null;
 
           const users = await User.find({
@@ -313,7 +368,7 @@ class UserService {
    * @param {any} files - .
    * @return {Promise<unknown>} the eventual completion or failure
    */
-  public async register(data: UserType, files: any): Promise<unknown> {
+  public async register(data: UserType): Promise<unknown> {
     return new Promise((resolve, reject) => {
       (async () => {
         try {

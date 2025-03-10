@@ -379,6 +379,79 @@ class UserRoutes {
 
             /**
              * @swagger
+             * /v1/{lang}/users:
+             *   get:
+             *     tags:
+             *     - User
+             *     operationId: getAllUsers
+             *     summary: Get all users.
+             *     description: Get all users from system.
+             *     parameters:
+             *      - in: path
+             *        name: lang
+             *        schema:
+             *          type: string
+             *          example: en
+             *        required: true
+             *        description: Language for the response. Supported
+             *          languages ['en', 'fr']
+             *      - in: query
+             *        name: roles
+             *        schema:
+             *          type: string
+             *        description: Roles's slug separated by commas
+             *      - in: query
+             *        name: page
+             *        schema:
+             *          type: number
+             *        description: Page index
+             *      - in: query
+             *        name: limit
+             *        schema:
+             *          type: number
+             *        description: Number of elements per page
+             *
+             *     responses:
+             *       200:
+             *         description: The users were successfully retrieved.
+             *         content:
+             *           application/json:
+             *             schema:
+             *                type: object
+             *                properties:
+             *                  status:
+             *                    type: string
+             *                    example: Ok
+             *                  data:
+             *                    type: array
+             *                    items:
+             *                      $ref: '#/components/schemas/User'
+             *
+             *       400:
+             *         description: Bad Request.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/400'
+             *
+             *       412:
+             *         description: Precondition Failed.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/412'
+             *       500:
+             *         description: Internal Server Error.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/500'
+             *
+             */
+            router.get("/", userController.getUsersByRoles);
+
+            /**
+             * @swagger
              * /v1/{lang}/users/customers:
              *   get:
              *     tags:
