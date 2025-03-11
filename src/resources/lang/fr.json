@@ -83,5 +83,10 @@
 			    "failed": "a échoué"
             }
         }
-    }
+    },
+    "subscriber": {
+		"subscriberNotFound": "Cet abonné n'existe pas.",
+		"invalidSubscriberId": "L'identifiant de cet abonné est invalide",
+        "alreadySubscribe": "Vous êtes déjà abonné"
+	}
 }

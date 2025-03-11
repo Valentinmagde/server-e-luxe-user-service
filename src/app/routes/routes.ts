@@ -14,6 +14,7 @@ import setLocale from "../middlewares/set-locale.middleware";
 import authorization from "../middlewares/authorization.middleware";
 import countryRoutes from "../modules/country/country.routes";
 import stateRoutes from "../modules/state/state.routes";
+import subscriberRoutes from "../modules/subscriber/subscriber.routes";
 
 /**
  * @author Valentin Magde <valentinmagde@gmail.com>
@@ -69,6 +70,9 @@ class Routes {
 
             // Includes state routes
             router.use(stateRoutes.stateRoutes());
+
+            // Includes subscribers routes
+            router.use(subscriberRoutes.subscriberRoutes());
           })
         );
 
