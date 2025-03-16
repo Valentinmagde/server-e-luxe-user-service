@@ -45,7 +45,8 @@ class DBManager {
     else {
       mongoose
         .connect(
-          `mongodb://${config.mongoDbHost}:${config.mongoDbPort}/${config.mongoDbName}`
+          `mongodb://${config.mongoDbUser}:${config.mongoDbPassword}@${config.mongoDbHost}:${
+            config.mongoDbPort}/${config.mongoDbName}?authSource=admin`
         )
         .then(() => {
           next();
