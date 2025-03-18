@@ -649,13 +649,23 @@ class UserRoutes {
 
             /**
              * @swagger
-             * /v1/users/login:
+             * /v1/{lang}/users/login:
              *   post:
              *     tags:
              *     - User
              *     operationId: login
              *     summary: Logs user into the system.
              *     description: Logs user into the system.
+             *     parameters:
+             *      - in: path
+             *        name: lang
+             *        schema:
+             *          type: string
+             *          example: en
+             *        required: true
+             *        description: Language for the response. Supported
+             *          languages ['en', 'fr']
+             *
              *     requestBody:
              *       required: true
              *       content:
