@@ -405,6 +405,8 @@ class UserController {
    * @return {Promise<void>} the eventual completion or failure
    */
   public async login(req: Request, res: Response): Promise<void> {
+    console.log(req);
+
     const validationRule = {
       email: "required|string|email",
       password: "required|string|min:6",
