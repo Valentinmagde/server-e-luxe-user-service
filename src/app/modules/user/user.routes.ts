@@ -648,7 +648,7 @@ class UserRoutes {
             router.post("/subscribe", userController.subscribe);
 
             /**
-             * // @swagger
+             * @swagger
              * /v1/users/login:
              *   post:
              *     tags:
