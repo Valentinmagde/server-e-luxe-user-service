@@ -59,6 +59,7 @@ class AppConfig {
     this.app.use(express.json({ limit: '50mb' }));
     // this.app.use(bodyParser.urlencoded());
     this.app.use(express.urlencoded({ limit: '50mb', extended: true }));
+    this.app.set('trust proxy', true);
     // this.app.use(upload.any()); // for parsing multipart/form-data requests
     this.app.use(cors());
   }
