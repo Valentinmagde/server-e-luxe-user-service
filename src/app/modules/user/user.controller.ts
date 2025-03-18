@@ -405,12 +405,6 @@ class UserController {
    * @return {Promise<void>} the eventual completion or failure
    */
   public async login(req: Request, res: Response): Promise<void> {
-    console.log("Protocol", req.protocol);
-    console.log("Host", req.hostname);
-    console.log("Origin", req.headers.origin);
-    console.log("Referer", req.headers.referer);
-    console.log("Requete Body", req.body);
-
     const validationRule = {
       email: "required|string|email",
       password: "required|string|min:6",
@@ -434,7 +428,6 @@ class UserController {
             userService
               .login(req.body)
               .then((result) => {
-                console.log("result", result);
                 if (result === null || result === undefined) {
                   const response = {
                     status: statusCode.httpBadRequest,
@@ -457,11 +450,11 @@ class UserController {
                     data: result,
                   };
 
+                  console.log(customResponse.success(response, res));
                   return customResponse.success(response, res);
                 }
               })
               .catch((error) => {
-                console.log("error 464", error);
                 const response = {
                   status: error?.status || statusCode.httpInternalServerError,
                   errNo: errorNumbers.genericError,
@@ -474,7 +467,6 @@ class UserController {
         }
       )
       .catch((error) => {
-        console.log("error 477", error);
         const response = {
           status: error?.status || statusCode.httpInternalServerError,
           errNo: errorNumbers.genericError,
