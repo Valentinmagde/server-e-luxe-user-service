@@ -450,7 +450,6 @@ class UserController {
                     data: result,
                   };
 
-                  console.log(customResponse.success(response, res));
                   return customResponse.success(response, res);
                 }
               })
