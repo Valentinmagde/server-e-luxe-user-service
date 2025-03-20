@@ -648,7 +648,7 @@ class UserRoutes {
             router.post("/subscribe", userController.subscribe);
 
             /**
-             * @swagger
+             * //@swagger
              * /v1/{lang}/users/login:
              *   post:
              *     tags:
@@ -1657,108 +1657,6 @@ class UserRoutes {
              *
              */
             router.delete("/:userId", userController.delete);
-          })
-        );
-
-        router.use(
-          "/auth",
-          routesGrouping.group((router) => {
-             /**
-             * //@swagger
-             * /v1/{lang}/auth/login:
-             *   post:
-             *     tags:
-             *     - User
-             *     operationId: login
-             *     summary: Logs user into the system.
-             *     description: Logs user into the system.
-             *     parameters:
-             *      - in: path
-             *        name: lang
-             *        schema:
-             *          type: string
-             *          example: en
-             *        required: true
-             *        description: Language for the response. Supported
-             *          languages ['en', 'fr']
-             *
-             *     requestBody:
-             *       required: true
-             *       content:
-             *         application/x-www-form-urlencoded:
-             *           schema:
-             *             type: object
-             *             properties:
-             *               email:
-             *                 type: string
-             *                 description: The user's email.
-             *                 example: admin@example.com
-             *               password:
-             *                 type: string
-             *                 format: password
-             *                 description: The user's password.
-             *                 example: admin
-             *             required:
-             *               - email
-             *               - password
-             *     responses:
-             *       200:
-             *         description: The user has successfully logged in.
-             *         content:
-             *           application/json:
-             *             schema:
-             *               type: object
-             *               properties:
-             *                 status:
-             *                  type: string
-             *                  example: Ok
-             *                 data:
-             *                   type: array
-             *                   items:
-             *                     type: object
-             *                     properties:
-             *                       _id:
-             *                         type: integer
-             *                         description: The user ID.
-             *                         example: 0
-             *                       name:
-             *                         type: string
-             *                         description: The user's name.
-             *                         example: Leanne Graham
-             *                       email:
-             *                         type: string
-             *                         description: The user's email.
-             *                         example: admin@example.com
-             *                       isAdmin:
-             *                         type: boolean
-             *                         description: The user's role.
-             *                         example: true
-             *                       token:
-             *                         type: string
-             *                         description: json web token.
-             *       '400':
-             *         description: Bad Request.
-             *         content:
-             *          application/json:
-             *             schema:
-             *              $ref: '#/responses/schemas/400'
-             *
-             *       '412':
-             *         description: Precondition Failed.
-             *         content:
-             *          application/json:
-             *             schema:
-             *              $ref: '#/responses/schemas/412'
-             *
-             *       '500':
-             *         description: Internal Server Error.
-             *         content:
-             *          application/json:
-             *             schema:
-             *              $ref: '#/responses/schemas/500'
-             *
-             */
-             router.post("/login", userController.login);
           })
         );
       })
