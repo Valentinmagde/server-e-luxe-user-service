@@ -66,7 +66,7 @@ class Authorization {
             // token in deny list?
             if (inDenyList) {
               // Close connection after token verification to avoid exhausting available connections
-              await redisClient.quit();
+              await redisClient.disconnect();
 
               const response = {
                 status: statusCode.httpUnauthorized,
@@ -79,7 +79,7 @@ class Authorization {
               // token valid?
               jwt.verify(token, publicKey, async(err, decode) => {
                 // Close connection after token verification to avoid exhausting available connections
-                await redisClient.quit();
+                await redisClient.disconnect();
 
                 if (err) {
                   const response = {
