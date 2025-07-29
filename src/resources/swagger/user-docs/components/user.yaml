@@ -7,7 +7,7 @@ components:
           type: string
         first_name:
           type: string
-        last_name: 
+        last_name:
           type: string
         username:
           type: string
@@ -25,7 +25,7 @@ components:
           properties:
             first_name:
               type: string
-            last_name: 
+            last_name:
               type: string
             company:
               type: string
@@ -50,7 +50,7 @@ components:
           properties:
             first_name:
               type: string
-            last_name: 
+            last_name:
               type: string
             company:
               type: string
@@ -70,7 +70,7 @@ components:
               type: string
             email:
               type: string
-        vendor: 
+        vendor:
           type: object
           properties:
             personal_info:
@@ -170,6 +170,54 @@ components:
                   type: boolean
                 feature_vendor:
                   type: boolean
+        referral:
+          type: object
+          properties:
+            code:
+              type: string
+            stats:
+              type: object
+              properties:
+                total_earned:
+                  type: number
+                total_referrals:
+                  type: number
+                last_commission_date:
+                  type: string
+                  format: date-time
+            referred_by:
+              type: string
+            referral_path:
+              type: object
+              properties:
+                level1:
+                  type: string
+                level2:
+                  type: string
+                level3:
+                  type: string
+            commission_rates:
+              type: object
+              properties:
+                level1:
+                  type: number
+                level2:
+                  type: number
+                level3:
+                  type: number
+            wallet:
+              type: object
+              properties:
+                available:
+                  type: number
+                pending:
+                  type: number
+            tier:
+              type: string
+              enum:
+                - standard
+                - vip
+                - ambassador
         online:
           type: boolean
         is_deleted:

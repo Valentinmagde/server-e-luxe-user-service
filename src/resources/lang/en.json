@@ -76,6 +76,17 @@
 		"stateNotFound": "State does not exits",
 		"invalidStateId": "Invalid state id"
 	},
+	"withdrawal": {
+		"notEnoughFunds": "Not enough funds",
+		"withdrawalNotFound": "Withdrawal does not exits",
+		"invalidWithdrawalId": "Invalid withdrawal id",
+		"invalidStatus": "Invalid status",
+		"noReferral": "No referral found"
+	},
+	"referral": {
+		"referralNotFound": "Referral does not exits",
+		"invalidReferralId": "Invalid referral id"
+	},
 	"config": {
 		"cache": {
 			"redis": {

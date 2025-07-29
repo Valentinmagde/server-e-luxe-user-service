@@ -1,5 +1,6 @@
 import GenderType from "../gender/gender.type";
 import RoleType from "../role/role.type";
+import { Types } from "mongoose";
 
 export default interface UserType {
   _id: string;
@@ -20,6 +21,10 @@ export default interface UserType {
   billing_address: BillingAddress;
   delivery_address: DeliveryAddress;
   vendor: Vendor;
+  referral: Referral;
+  status: string;
+  referral_code: string;
+  referred_by: string;
   is_deleted: boolean;
   online: boolean;
   created_at: Date;
@@ -112,4 +117,37 @@ interface BusinessHour {
   end_time: string;
   created_at: Date;
   updated_at: Date;
+}
+
+interface Referral {
+  code: string;
+  referred_by: Types.ObjectId;
+  referral_path: ReferralPath;
+  stats: Stats;
+  commission_rates: CommissionRates;
+  wallet: Wallet;
+  tier: string;
+}
+
+interface ReferralPath {
+  level1: string;
+  level2: string;
+  level3: string;
+}
+
+interface Stats {
+  total_earned: number;
+  total_referrals: number;
+  last_commission_date: Date;
+}
+
+interface CommissionRates {
+  level1: number;
+  level2: number;
+  level3: number;
+}
+
+interface Wallet {
+  available: number;
+  pending: number;
 }

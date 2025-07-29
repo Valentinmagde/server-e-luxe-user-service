@@ -4,9 +4,8 @@ import Role from "../role/role.model";
 import UserType from "./user.type";
 import RoleType from "../role/role.type";
 import * as jsonpatch from "fast-json-patch";
-// import Gender from "../gender/gender.model";
-// import uploadFile from "../../utils/upload-single";
-// import { createMongooseId } from "../../utils/helpers.util";
+import Referral from "../referral/referral.model";
+import referralService from "../referral/referral.service";
 
 /**
  * @author Valentin Magde <valentinmagde@gmail.com>
@@ -100,7 +99,8 @@ class UserService {
                 },
               ],
             })
-            .populate("delivery_address.state");
+            .populate("delivery_address.state")
+            .populate("referral");
 
           resolve(user);
         } catch (error) {
@@ -368,7 +368,7 @@ class UserService {
    * @param {any} files - .
    * @return {Promise<unknown>} the eventual completion or failure
    */
-  public async register(data: UserType): Promise<unknown> {
+  public async register(data: any): Promise<unknown> {
     return new Promise((resolve, reject) => {
       (async () => {
         try {
@@ -376,16 +376,34 @@ class UserService {
 
           if (isAdded) {
             resolve("EMAIL_ALREADY_TAKEN");
-          } else {
-            const newUser = new User({
-              ...data,
-              password: passwordHash.createHash(data.password),
+          }
+
+          const newUser = new User({
+            ...data,
+            password: passwordHash.createHash(data.password),
+          });
+
+          const user = await newUser.save();
+          let referredBy = null;
+
+          if (data?.referralCode) {
+            const referral = await Referral.findOne({
+              code: data.referralCode,
             });
 
-            const user = await newUser.save();
+            if (!referral) {
+              resolve("REFERRAL_CODE_NOT_FOUND");
+            }
 
-            resolve(user);
+            referredBy = referral?.user;
           }
+
+          await referralService.store({
+            userId: user._id,
+            referredBy,
+          });
+
+          resolve(user);
         } catch (error) {
           reject(error);
         }
@@ -402,7 +420,7 @@ class UserService {
    * @param {any} data the user data to store.
    * @return {Promise<unknown>} the eventual completion or failure
    */
-  public async store(data: UserType): Promise<unknown> {
+  public async store(data: any): Promise<unknown> {
     return new Promise((resolve, reject) => {
       (async () => {
         try {
@@ -412,6 +430,24 @@ class UserService {
           });
 
           const createdUser = await newUser.save();
+          let referredBy = null;
+
+          if (data?.referralCode) {
+            const referral = await Referral.findOne({
+              code: data.referralCode,
+            });
+
+            if (!referral) {
+              resolve("REFERRAL_CODE_NOT_FOUND");
+            }
+
+            referredBy = referral?.user;
+          }
+
+          await referralService.store({
+            userId: createdUser._id,
+            referredBy,
+          });
 
           resolve(createdUser);
         } catch (error) {

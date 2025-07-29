@@ -76,6 +76,17 @@
         "stateNotFound": "Cette region n'existe pas",
 		"invalidStateId": "L'identifiant de cette region n'est pas valide"
     },
+    "withdrawal": {
+        "notEnoughFunds": "Pas assez de fonds",
+        "withdrawalNotFound": "Le retrait n'existe pas",
+        "invalidWithdrawalId": "L'identifiant du retrait n'est pas valide",
+        "invalidStatus": "L'état du retrait n'est pas valide",
+        "noReferral": "Aucun parrainage trouvé"
+    },
+    "referral": {
+        "referralNotFound": "Ce parrainage n'existe pas",
+        "invalidReferralId": "L'identifiant de ce parrainage n'est pas valide"
+    },
     "config": {
         "cache": {
             "redis": {

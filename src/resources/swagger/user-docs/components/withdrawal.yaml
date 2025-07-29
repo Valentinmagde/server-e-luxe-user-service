@@ -1,0 +1,33 @@
+components:
+  schemas:
+    Withdrawal:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The withdrawal ID.
+          example: 1
+        user_id:
+          type: string
+          description: The user ID.
+          example: 1
+        amount:
+          type: number
+          description: The withdrawal amount.
+          example: 100
+        status:
+          type: string
+          description: The withdrawal status.
+          example: pending
+        processed_at:
+          type: string
+          format: date-time
+          description: The date and time when the withdrawal was processed.
+          example: 2022-01-01T00:00:00.000Z
+        bank_details:
+          type: object
+          properties:
+            iban:
+              type: string
+              description: The IBAN number.
+              example: FR7630001007941234567890185

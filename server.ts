@@ -7,6 +7,7 @@ import statusCode from "./src/app/utils/status-code.util";
 import errorNumbers from "./src/app/utils/error-numbers.util";
 import config from "./src/config";
 import AppConfig from "./src/core/app";
+import Subscribes from "./src/app/subscribes/subscribes";
 
 /**
  * @author Valentin Magde <valentinmagde@gmail.com>
@@ -43,6 +44,18 @@ class Server {
   }
 
   /**
+   * Including app Subscribes starts
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2023-08-27
+   *
+   * @returns {void}
+   */
+  public includeSubscribes(): void {
+    new Subscribes().subscribesConfig();
+  }
+
+  /**
    * Including app Routes starts
    *
    * @author Valentin Magde <valentinmagde@gmail.com>
@@ -65,6 +78,7 @@ class Server {
   public startTheServer(): void {
     this.appConfig();
     this.includeRoutes();
+    this.includeSubscribes();
     // Default error-handling middleware
     this.app.use(
       (error: Error, req: Request, res: Response, next: NextFunction) => {

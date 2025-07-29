@@ -1,0 +1,43 @@
+components:
+  schemas:
+    Commission:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The commission ID.
+          example: 1
+        user_id:
+          type: string
+          description: The user ID.
+          example: 1
+        order_id:
+          type: string
+          description: The order ID.
+          example: 1
+        amount:
+          type: number
+          description: The commission amount.
+          example: 10
+        level:
+          type: number
+          description: The commission level.
+          example: 1
+        status:
+          type: string
+          description: The commission status.
+          example: pending
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time when the commission was created.
+          example: 2022-01-01T00:00:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time when the commission was last updated.
+          example: 2022-01-01T00:00:00.000Z
+        __v:
+          type: number
+          description: The version number of the commission.
+          example: 1

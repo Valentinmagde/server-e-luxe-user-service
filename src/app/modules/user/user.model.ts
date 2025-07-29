@@ -15,6 +15,12 @@ const businessHourSchema = new mongoose.Schema(
   }
 );
 
+// const referralStatsSchema = new mongoose.Schema({
+//   total_earned: { type: Number, default: 0 },
+//   total_referrals: { type: Number, default: 0 },
+//   last_commission_date: { type: Date },
+// });
+
 const userSchema = new mongoose.Schema(
   {
     first_name: { type: String, required: false },
@@ -124,9 +130,52 @@ const userSchema = new mongoose.Schema(
         feature_vendor: { type: Boolean, default: false, required: false },
       },
     },
+    // referral: {
+    //   code: {
+    //     type: String,
+    //     unique: true,
+    //     default: function () {
+    //       return "ELUX-" + Math.random().toString(36).substr(2, 8).toUpperCase();
+    //     },
+    //   },
+    //   referred_by: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "user",
+    //   },
+    //   referral_path: {
+    //     level1: { type: mongoose.Schema.Types.ObjectId, ref: "user" }, // Parrain direct
+    //     level2: { type: mongoose.Schema.Types.ObjectId, ref: "user" }, // Parrain du parrain
+    //     level3: { type: mongoose.Schema.Types.ObjectId, ref: "user" }, // Niveau 3
+    //   },
+    //   stats: referralStatsSchema,
+    //   commission_rates: {
+    //     level1: { type: Number, default: 5 }, // 5% pour niveau 1
+    //     level2: { type: Number, default: 4 }, // 4% pour niveau 2
+    //     level3: { type: Number, default: 1 }, // 1% pour niveau 3
+    //   },
+    //   wallet: {
+    //     available: { type: Number, default: 0, min: 0 },
+    //     pending: { type: Number, default: 0, min: 0 },
+    //   },
+    //   tier: {
+    //     type: String,
+    //     enum: ["standard", "vip", "ambassador"],
+    //     default: "standard",
+    //   },
+    // },
+    referral: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Referral",
+      required: false,
+    },
     username: { type: String, required: false },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, select: false, default: passwordHash.createHash('12345678') },
+    password: {
+      type: String,
+      required: true,
+      select: false,
+      default: passwordHash.createHash("12345678"),
+    },
     phone: { type: String, required: false },
     address: { type: String, required: false },
     gender: { type: mongoose.Schema.Types.ObjectId, ref: "gender" },
@@ -137,12 +186,21 @@ const userSchema = new mongoose.Schema(
     currency: { type: String, required: false },
     country: { type: String, required: false },
     city: { type: String, required: false },
-    status: { type: String, required: false, default: "Active", enum: ["Active", "Inactive"] },
+    status: {
+      type: String,
+      required: false,
+      default: "Active",
+      enum: ["Active", "Inactive"],
+    },
     role: { type: mongoose.Schema.Types.ObjectId, ref: "role" },
     is_deleted: { type: Boolean, default: false, required: false },
     online: { type: Boolean, default: false, required: false },
     reset_password_token: { type: String, required: false },
-    reset_password_expires: { type: Date, default: Date.now(), required: false },
+    reset_password_expires: {
+      type: Date,
+      default: Date.now(),
+      required: false,
+    },
   },
   {
     timestamps: {
@@ -151,6 +209,35 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
+
+// Index pour les recherches de parrainage
+// userSchema.index({ "referral.code": 1 });
+// userSchema.index({ "referral.referred_by": 1 });
+// userSchema.index({ "referral.referral_path.level1": 1 });
+// userSchema.index({ "referral.referral_path.level2": 1 });
+
+// Middleware corrigé pour le peuplement
+// userSchema.pre("save", async function (next) {
+//   if (this.isModified("referral.referred_by") && this.referral?.referred_by) {
+//     try {
+//       const referrer: any = await this.model("user").findById(
+//         this.referral.referred_by
+//       );
+//       if (referrer) {
+//         this.referral.referral_path = {
+//           level1: referrer?._id,
+//           level2: referrer?.referral?.referred_by,
+//           level3: referrer?.referral?.referral_path?.level1,
+//         };
+//       }
+//       next();
+//     } catch (error) {
+//       next(error as Error);
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 const User = mongoose.model("user", userSchema);
 

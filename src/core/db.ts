@@ -64,6 +64,36 @@ class DBManager {
   }
 
   /**
+   * Connect to database.
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2025-07-29
+   *
+   * @return {Promise<any>} the eventual completion or failure
+   */
+  public asyncOnConnect(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          mongoose
+            .connect(
+              `mongodb://${config.mongoDbUser}:${config.mongoDbPassword}@${config.mongoDbHost}:${
+              config.mongoDbPort}/${config.mongoDbName}?authSource=admin`
+            )
+            .then((dBConnection) => {
+              resolve(dBConnection);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        } catch (error) {
+          reject(error);
+        }
+      })();
+    });
+  }
+
+  /**
    * Set db connection
    *
    * @author Valentin Magde <valentinmagde@gmail.com>

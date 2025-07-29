@@ -15,6 +15,9 @@ import authorization from "../middlewares/authorization.middleware";
 import countryRoutes from "../modules/country/country.routes";
 import stateRoutes from "../modules/state/state.routes";
 import subscriberRoutes from "../modules/subscriber/subscriber.routes";
+import withdrawalRoutes from "../modules/withdrawal/withdrawal.routes";
+import commissionRoutes from "../modules/commission/commission.routes";
+import referralRoutes from "../modules/referral/referral.routes";
 
 /**
  * @author Valentin Magde <valentinmagde@gmail.com>
@@ -73,6 +76,15 @@ class Routes {
 
             // Includes subscribers routes
             router.use(subscriberRoutes.subscriberRoutes());
+
+            // Includes withdrawal routes
+            router.use(withdrawalRoutes.withdrawalRoutes());
+
+            // Includes commission routes
+            router.use(commissionRoutes.commissionRoutes());
+
+            // Includes referral routes
+            router.use(referralRoutes.referralRoutes());
           })
         );
 
