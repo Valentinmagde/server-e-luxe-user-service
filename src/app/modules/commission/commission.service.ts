@@ -58,8 +58,8 @@ class CommissionService {
           order_items.forEach((item: any) => {
             profit_grids.forEach((grid: any) => {
               if (
-                item.purchase_cost <= grid.max_amount &&
-                item.purchase_cost >= grid.min_amount
+                item?.purchase_cost <= grid.max_amount &&
+                item?.purchase_cost >= grid.min_amount
               ) {
                 profit += item.purchase_cost * (grid.net_rate / 100);
               }
