@@ -99,5 +99,8 @@
 		"subscriberNotFound": "Cet abonné n'existe pas.",
 		"invalidSubscriberId": "L'identifiant de cet abonné est invalide",
         "alreadySubscribe": "Vous êtes déjà abonné"
+	},
+    "gdpr": {
+		"invalidToken": "Token invalide"
 	}
 }

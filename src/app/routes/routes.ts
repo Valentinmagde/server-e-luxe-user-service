@@ -18,6 +18,7 @@ import subscriberRoutes from "../modules/subscriber/subscriber.routes";
 import withdrawalRoutes from "../modules/withdrawal/withdrawal.routes";
 import commissionRoutes from "../modules/commission/commission.routes";
 import referralRoutes from "../modules/referral/referral.routes";
+import consentRoutes from "../modules/consent/consent.routes";
 
 /**
  * @author Valentin Magde <valentinmagde@gmail.com>
@@ -85,6 +86,9 @@ class Routes {
 
             // Includes referral routes
             router.use(referralRoutes.referralRoutes());
+
+            // Includes consent routes
+            router.use(consentRoutes.consentRoutes());
           })
         );
 

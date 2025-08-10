@@ -1,0 +1,60 @@
+components:
+  schemas:
+    Consent:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The consent ID.
+          example: "1234567890"
+        user_id:
+          type: string
+          description: The user ID.
+          example: "1234567890"
+        session_id:
+          type: string
+          description: The session ID.
+          example: "1234567890"
+        ip:
+          type: string
+          description: The IP address.
+          example: "127.0.0.1"
+        user_agent:
+          type: string
+          description: The user agent.
+          example: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
+        categories:
+          type: object
+          description: The consent categories.
+          properties:
+            necessary:
+              type: boolean
+              description: Whether the necessary category is given.
+              example: true
+            analytics:
+              type: boolean
+              description: Whether the analytics category is given.
+              example: true
+            marketing:
+              type: boolean
+              description: Whether the marketing category is given.
+              example: false
+        given_at:
+          type: string
+          format: date-time
+          description: The date and time when the consent was given.
+          example: 2022-01-01T00:00:00.000Z
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time when the consent was created.
+          example: 2022-01-01T00:00:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time when the consent was last updated.
+          example: 2022-01-01T00:00:00.000Z
+        __v:
+          type: number
+          description: The version number of the consent.
+          example: 0

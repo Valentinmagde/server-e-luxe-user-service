@@ -7,6 +7,7 @@ declare global {
     interface Request {
       user?: UserType;
       file?: File;
+      sessionID?: string;
     }
   }
 }

@@ -1,13 +1,12 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
-import bodyParser from "body-parser";
+// import bodyParser from "body-parser";
 import cors from "cors";
 import ExpressConfigModule from "./express";
 import express, { Application } from "express";
 import DBManager from "./db";
-import multer from "multer";
-
-const upload = multer();
+import session from "express-session";
+import config from "../config";
 
 /**
  * @author Valentin Magde <valentinmagde@gmail.com>
@@ -56,12 +55,28 @@ class AppConfig {
    * @return {void}
    */
   public loadAppLevelConfig(): void {
-    this.app.use(express.json({ limit: '50mb' }));
+    this.app.use(express.json({ limit: "50mb" }));
     // this.app.use(bodyParser.urlencoded());
-    this.app.use(express.urlencoded({ limit: '50mb', extended: true }));
+    this.app.use(express.urlencoded({ limit: "50mb", extended: true }));
     // this.app.set('trust proxy', true);
     // this.app.use(upload.any()); // for parsing multipart/form-data requests
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin: [
+          config.webClientUrl,
+          config.webBackofficeUrl,
+          config.apiGatewayUrl,
+        ],
+        credentials: true,
+      })
+    );
+    this.app.use(
+      session({
+        secret: config.nodeServerPublicKey as any,
+        resave: false,
+        saveUninitialized: true,
+      })
+    );
   }
 
   /**

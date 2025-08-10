@@ -99,5 +99,8 @@
 		"subscriberNotFound": "Subscriber does not exits.",
 		"invalidSubscriberId": "Invalid subscriber id.",
 		"alreadySubscribe": "You are already subscribed"
+	},
+	"gdpr": {
+		"invalidToken": "Invalid token"
 	}
 }
