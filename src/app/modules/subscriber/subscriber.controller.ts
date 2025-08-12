@@ -194,7 +194,7 @@ class SubscriberController {
             subscriberService
               .store(req.body)
               .then((result: any) => {
-                if(result === "ALREDY_EXISTS") {
+                if(result === "ALREADY_EXISTS") {
                   const response = {
                     status: statusCode.httpBadRequest,
                     errNo: errorNumbers.genericError,

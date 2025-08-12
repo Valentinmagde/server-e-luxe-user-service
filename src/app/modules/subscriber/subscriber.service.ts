@@ -100,7 +100,7 @@ class SubscriberService {
 
               resolve(subscriber);
             } else {
-              reject("ALREADY_EXISTS");
+              resolve("ALREADY_EXISTS");
             }
           } else {
             const newSubscriber = new Subscriber({
