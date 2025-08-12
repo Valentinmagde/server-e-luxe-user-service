@@ -178,6 +178,21 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.pre(/^find/, function (next) {
+  // Ignorer les enregistrements marqués comme supprimés
+  if (this instanceof mongoose.Query) {
+    this.where({ is_deleted: false }); // Filtrer les enregistrements non supprimés
+  }
+  next();
+});
+
+userSchema.methods.softDelete = async function () {
+  this.is_deleted = true;
+  this.deleted_at = new Date();
+  this.email = `${this.email}_deleted_${Date.now()}`; // Ajouter un suffixe unique
+  await this.save();
+};
+
 const User = mongoose.model("user", userSchema);
 
 export default User;

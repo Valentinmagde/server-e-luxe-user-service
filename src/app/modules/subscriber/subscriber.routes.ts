@@ -270,6 +270,69 @@ class SubscriberRoutes {
 
             /**
              * @swagger
+             * /v1/{lang}/subscriber/email/{email}:
+             *   get:
+             *     tags:
+             *     - Subscriber
+             *     operationId: showByEmail
+             *     summary: Get a subscriber by email.
+             *     description: Get a subscriber by email from the system.
+             *     parameters:
+             *      - in: path
+             *        name: lang
+             *        schema:
+             *          type: string
+             *          example: en
+             *        required: true
+             *        description: Language for the response. Supported
+             *          languages ['en', 'fr']
+             *      - in: path
+             *        name: email
+             *        schema:
+             *          type: string
+             *        required: true
+             *        description: String email of the subscriber to get
+             *
+             *     responses:
+             *       200:
+             *         description: The subscriber has successfully obtained.
+             *         content:
+             *           application/json:
+             *             schema:
+             *                type: object
+             *                properties:
+             *                  status:
+             *                    type: string
+             *                    example: Ok
+             *                  data:
+             *                    $ref: '#/components/schemas/Subscriber'
+             *
+             *       '400':
+             *         description: Bad Request.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/400'
+             *
+             *       '404':
+             *         description: Not Found.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/404'
+             *
+             *       '500':
+             *         description: Internal Server Error.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/500'
+             *
+             */
+            router.get("/email/:email", subscriberController.showByEmail);
+
+            /**
+             * @swagger
              * /v1/{lang}/subscriber/{subscriberId}:
              *   put:
              *     security:
@@ -448,6 +511,72 @@ class SubscriberRoutes {
              *
              */
             router.patch("/:subscriberId", subscriberController.patch);
+
+            /**
+             * @swagger
+             * /v1/{lang}/subscriber/{subscriberId}/unsubscribe:
+             *   post:
+             *     tags:
+             *     - Subscriber
+             *     operationId: unsubscribe
+             *     summary: Unsubscribe a subscriber by ID.
+             *     description: Unsubscribe a subscriber by ID.
+             *     parameters:
+             *      - in: path
+             *        name: lang
+             *        schema:
+             *          type: string
+             *          example: en
+             *        required: true
+             *        description: Language for the response. Supported
+             *          languages ['en', 'fr']
+             *      - in: path
+             *        name: subscriberId
+             *        schema:
+             *          type: string
+             *        required: true
+             *        description: String ID of the subscriber to unsubscribe
+             *
+             *     responses:
+             *       200:
+             *         description: The subscriber has successfully unsubscribe.
+             *         content:
+             *           application/json:
+             *             schema:
+             *                type: object
+             *                properties:
+             *                  status:
+             *                    type: string
+             *                    example: Ok
+             *                  data:
+             *                    $ref: '#/components/schemas/Subscriber'
+             *
+             *       '400':
+             *         description: Bad Request.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/400'
+             *
+             *       '404':
+             *         description: Not Found.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/404'
+             *
+             *       '500':
+             *         description: Internal Server Error.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/500'
+             *
+             */
+            router.get(
+              "/:subscriberId/unsubscribe",
+              subscriberController.unsubscribe
+            );
 
             /**
              * @swagger

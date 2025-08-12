@@ -150,7 +150,7 @@ class UserRoutes {
                 { name: "avatar", maxCount: 1 },
                 { name: "cover", maxCount: 1 },
               ]),
-              userController.register
+              (req, res) => userController.register(req, res)
             );
 
             /**
@@ -278,7 +278,7 @@ class UserRoutes {
              *              $ref: '#/responses/schemas/500'
              *
              */
-             router.post("/", userController.store);
+             router.post("/", (req, res) => userController.store(req, res));
 
             /**
              * @swagger

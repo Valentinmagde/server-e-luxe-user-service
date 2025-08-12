@@ -83,6 +83,50 @@ class SubscriberController {
   }
 
   /**
+   * Get subscriber by email
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2025-08-11
+   *
+   * @param {Request} req the http request
+   * @param {Response} res the http response
+   *
+   * @return {Promise<void>} the eventual completion or failure
+   */
+  public async showByEmail(req: Request, res: Response): Promise<void> {
+    const email = req.params.email;
+    subscriberService
+      .showByEmail(email)
+      .then((result) => {
+        if (result === null || result === undefined) {
+          const response = {
+            status: statusCode.httpNotFound,
+            errNo: errorNumbers.resourceNotFound,
+            errMsg: i18n.__("subscriber.subscriberNotFound"),
+          };
+
+          return customResponse.error(response, res);
+        } else {
+          const response = {
+            status: statusCode.httpOk,
+            data: result,
+          };
+
+          return customResponse.success(response, res);
+        }
+      })
+      .catch((error) => {
+        const response = {
+          status: error?.status || statusCode.httpInternalServerError,
+          errNo: errorNumbers.genericError,
+          errMsg: error?.message || error,
+        };
+
+        return customResponse.error(response, res);
+      });
+  }
+
+  /**
    * Get all subscribers
    *
    * @author Valentin Magde <valentinmagde@gmail.com>
@@ -265,6 +309,61 @@ class SubscriberController {
     if (checkObjectId(subscriberId)) {
       subscriberService
         .patch(subscriberId, req.body)
+        .then((result) => {
+          if (result === null || result === undefined) {
+            const response = {
+              status: statusCode.httpNotFound,
+              errNo: errorNumbers.resourceNotFound,
+              errMsg: i18n.__("subscriber.subscriberNotFound"),
+            };
+
+            return customResponse.error(response, res);
+          } else {
+            const response = {
+              status: statusCode.httpOk,
+              data: result,
+            };
+
+            return customResponse.success(response, res);
+          }
+        })
+        .catch((error) => {
+          const response = {
+            status: error?.status || statusCode.httpInternalServerError,
+            errNo: errorNumbers.genericError,
+            errMsg: error?.message || error,
+          };
+
+          return customResponse.error(response, res);
+        });
+    } else {
+      const response = {
+        status: statusCode.httpBadRequest,
+        errNo: errorNumbers.ivalidResource,
+        errMsg: i18n.__("subscriber.invalidSubscriberId"),
+      };
+
+      return customResponse.error(response, res);
+    }
+  }
+
+  /**
+   * Unsubscribe a subscriber
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2025-08-11
+   *
+   * @param {Request} req the http request
+   * @param {Response} res the http response
+   *
+   * @return {Promise<void>} the eventual completion or failure
+   */
+  public async unsubscribe(req: Request, res: Response): Promise<void> {
+    const subscriberId = req.params.subscriberId;
+
+    if (checkObjectId(subscriberId)) {
+      subscriberService
+        .unsubscribe(subscriberId)
         .then((result) => {
           if (result === null || result === undefined) {
             const response = {

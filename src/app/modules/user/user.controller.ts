@@ -34,6 +34,8 @@ class UserController {
    */
   constructor() {
     this.sendResetPasswordLink = this.sendResetPasswordLink.bind(this);
+    this.createResetPasswordLink = this.createResetPasswordLink.bind(this);
+    this.createLoginLink = this.createLoginLink.bind(this);
   }
 
   /**
@@ -488,15 +490,15 @@ class UserController {
    * @return {Promise<void>} the eventual completion or failure
    */
   public async register(req: Request, res: Response): Promise<void> {
-    const validationRule = {
-      // last_name: "required|string",
-      email: "required|string|email",
-      // gender: "required|string",
-      password: "required|string|min:6",
-    };
+    try {
+      const validationRule = {
+        // last_name: "required|string",
+        email: "required|string|email",
+        // gender: "required|string",
+        password: "required|string|min:6",
+      };
 
-    await validator
-      .validator(
+      await validator.validator(
         req.body,
         validationRule,
         {},
@@ -509,48 +511,62 @@ class UserController {
             };
 
             return customResponse.error(response, res);
-          } else {
-            userService
-              .register(req.body)
-              .then((result) => {
-                if (result === "EMAIL_ALREADY_TAKEN") {
-                  const response = {
-                    status: statusCode.httpNotFound,
-                    errNo: errorNumbers.resourceNotFound,
-                    errMsg: i18n.__("user.register.emailAlreadyTaken"),
-                  };
-
-                  return customResponse.error(response, res);
-                } else {
-                  const response = {
-                    status: statusCode.httpCreated,
-                    data: result,
-                  };
-
-                  return customResponse.success(response, res);
-                }
-              })
-              .catch((error) => {
-                const response = {
-                  status: error?.status || statusCode.httpInternalServerError,
-                  errNo: errorNumbers.genericError,
-                  errMsg: error?.message || error,
-                };
-
-                return customResponse.error(response, res);
-              });
           }
         }
-      )
-      .catch((error) => {
+      );
+
+      const body = req.body;
+      const result = await userService.register(body);
+
+      if (result === "EMAIL_ALREADY_TAKEN") {
         const response = {
-          status: error?.status || statusCode.httpInternalServerError,
-          errNo: errorNumbers.genericError,
-          errMsg: error?.message || error,
+          status: statusCode.httpNotFound,
+          errNo: errorNumbers.resourceNotFound,
+          errMsg: i18n.__("user.register.emailAlreadyTaken"),
         };
 
         return customResponse.error(response, res);
-      });
+      } else {
+        const url = await this.createLoginLink(req);
+
+        const emailData: any = {
+          name: body?.name || "",
+          product_name: body?.appName || "E.LUXE LLC",
+          email: body?.email || "",
+          password: body?.password || "",
+          login_url: url,
+          operating_system: getOsFromRequest(req),
+          browser_name: getBrowserFromRequest(req),
+        };
+
+        const emailHtml = loadTemplate("register-template.html", emailData);
+
+        await rabbitmqManager.publishMessage(
+          "eluxe.email.sendMail",
+          "sendMail",
+          {
+            receivers: body.email,
+            subject: body.subject || "Welcome to our website!",
+            body: emailHtml,
+          }
+        );
+
+        const response = {
+          status: statusCode.httpCreated,
+          data: result,
+        };
+
+        return customResponse.success(response, res);
+      }
+    } catch (error: any) {
+      const response = {
+        status: statusCode.httpInternalServerError,
+        errNo: errorNumbers.genericError,
+        errMsg: error?.message || error,
+      };
+
+      return customResponse.error(response, res);
+    }
   }
 
   /**
@@ -565,16 +581,16 @@ class UserController {
    * @return {Promise<void>} the eventual completion or failure
    */
   public async store(req: Request, res: Response): Promise<void> {
-    const validationRule = {
-      username: "required|string",
-      // last_name: "required|string",
-      email: "required|string|email",
-      // gender: "required|string",
-      password: "required|string|min:6",
-    };
+    try {
+      const validationRule = {
+        username: "required|string",
+        // last_name: "required|string",
+        email: "required|string|email",
+        // gender: "required|string",
+        password: "required|string|min:6",
+      };
 
-    await validator
-      .validator(
+      await validator.validator(
         req.body,
         validationRule,
         {},
@@ -587,38 +603,46 @@ class UserController {
             };
 
             return customResponse.error(response, res);
-          } else {
-            userService
-              .store(req.body)
-              .then((result) => {
-                const response = {
-                  status: statusCode.httpCreated,
-                  data: result,
-                };
-
-                return customResponse.success(response, res);
-              })
-              .catch((error) => {
-                const response = {
-                  status: error?.status || statusCode.httpInternalServerError,
-                  errNo: errorNumbers.genericError,
-                  errMsg: error?.message || error,
-                };
-
-                return customResponse.error(response, res);
-              });
           }
         }
-      )
-      .catch((error) => {
-        const response = {
-          status: error?.status || statusCode.httpInternalServerError,
-          errNo: errorNumbers.genericError,
-          errMsg: error?.message || error,
-        };
+      );
+      const result = await userService.store(req.body);
+      const body = req.body;
+      const response = {
+        status: statusCode.httpCreated,
+        data: result,
+      };
 
-        return customResponse.error(response, res);
+      const url = await this.createLoginLink(req);
+
+      const emailData: any = {
+        name: body?.name || "",
+        product_name: body?.appName || "E.LUXE LLC",
+        email: body?.email || "",
+        password: body?.password || "",
+        login_url: url,
+        operating_system: getOsFromRequest(req),
+        browser_name: getBrowserFromRequest(req),
+      };
+
+      const emailHtml = loadTemplate("register-template.html", emailData);
+
+      await rabbitmqManager.publishMessage("eluxe.email.sendMail", "sendMail", {
+        receivers: body.email,
+        subject: body.subject || "Welcome to our website!",
+        body: emailHtml,
       });
+
+      return customResponse.success(response, res);
+    } catch (error: any) {
+      const response = {
+        status: statusCode.httpInternalServerError,
+        errNo: errorNumbers.genericError,
+        errMsg: error?.message || error,
+      };
+
+      return customResponse.error(response, res);
+    }
   }
 
   /**
@@ -1150,6 +1174,27 @@ class UserController {
 
       return customResponse.error(response, res);
     }
+  }
+
+  /**
+   * Create login link
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2024-07-29
+   *
+   * @param {Request} req the http request
+   * @return {Promise<string>} the eventual completion or failure
+   */
+  private async createLoginLink(req: Request): Promise<string> {
+    const origin = req.headers.origin as string;
+    const returnPath = req.body.returnPath
+      ? removeFirstLastSlash(req.body.returnPath)
+      : "sign-in";
+
+    // Build the login URL
+    const url = `${origin}/${returnPath}`;
+
+    return url;
   }
 }
 

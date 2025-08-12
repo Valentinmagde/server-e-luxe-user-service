@@ -32,6 +32,29 @@ class SubscriberService {
   }
 
   /**
+   * Get subscriber by email
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2025-08-11
+   *
+   * @param {string} email the subscriber email
+   * @return {Promise<unknown>} the eventual completion or failure
+   */
+  public showByEmail(email: string): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          const subscriber = await Subscriber.findOne({ email: email });
+
+          resolve(subscriber);
+        } catch (error) {
+          reject(error);
+        }
+      })();
+    });
+  }
+
+  /**
    * Get all subscriber.
    *
    * @author Valentin Magde <valentinmagde@gmail.com>
@@ -72,8 +95,9 @@ class SubscriberService {
             if (subscriber.status === "Inactive") {
               await Subscriber.updateOne(
                 { _id: subscriber._id },
-                { $set: {status: "Active"} }
+                { $set: { status: "Active" } }
               );
+
               resolve(subscriber);
             } else {
               reject("ALREADY_EXISTS");
@@ -142,7 +166,7 @@ class SubscriberService {
     return new Promise((resolve, reject) => {
       (async () => {
         try {
-          const subscriber = await Subscriber.findById(subscriberId);
+          const subscriber: any = await Subscriber.findById(subscriberId);
 
           if (subscriber) {
             const updateObject = jsonpatch.applyPatch(
@@ -169,6 +193,40 @@ class SubscriberService {
   }
 
   /**
+   * Unsubscribe a subscriber
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2025-08-11
+   *
+   * @param {string} subscriberId the subscriber id
+   * @return {Promise<unknown>} the eventual completion or failure
+   */
+  public async unsubscribe(subscriberId: string): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          const subscriber: any = await Subscriber.findById(subscriberId);
+
+          if (subscriber) {
+            await Subscriber.updateOne(
+              { _id: subscriberId },
+              { $set: { status: "Inactive" } }
+            );
+
+            await subscriber.softDelete();
+
+            resolve(subscriber);
+          } else {
+            resolve(subscriber);
+          }
+        } catch (error) {
+          reject(error);
+        }
+      })();
+    });
+  }
+
+  /**
    * Delete a subscriber by id
    *
    * @author Valentin Magde <valentinmagde@gmail.com>
@@ -184,6 +242,11 @@ class SubscriberService {
           const subscriber: any = await Subscriber.findById(subscriberId);
 
           if (subscriber) {
+            await Subscriber.updateOne(
+              { _id: subscriberId },
+              { $set: { status: "Inactive" } }
+            );
+
             await subscriber.softDelete();
 
             resolve(subscriber);

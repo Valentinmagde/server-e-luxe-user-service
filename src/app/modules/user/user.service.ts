@@ -686,7 +686,7 @@ class UserService {
     return new Promise((resolve, reject) => {
       (async () => {
         try {
-          const user: UserType | null = await User.findById(userId).populate(
+          const user: any = await User.findById(userId).populate(
             "roles"
           );
 
@@ -694,15 +694,9 @@ class UserService {
             let roles: Array<RoleType> = user?.roles as Array<RoleType>;
             roles = roles.filter((role) => role.name.en == "Administrator");
 
-            if (roles.length) resolve("isAdmin");
-            else {
-              const deleteUser = await new User(user).deleteOne();
-
-              resolve(deleteUser);
-            }
-          } else {
-            resolve(user);
+            if (roles.length) resolve("isAdmin"); else await user.softDelete();
           }
+          resolve(user);
         } catch (error) {
           reject(error);
         }
