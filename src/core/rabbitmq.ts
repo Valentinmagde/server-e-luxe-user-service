@@ -61,7 +61,9 @@ class RabbitmqManager {
             routingKey,
             Buffer.from(JSON.stringify(logDetails))
           );
-
+          console.log(
+            `The message ${message} is send to exchange ${exchangeName}`
+          );
           resolve(publishResult);
         } catch (error) {
           reject(error);
