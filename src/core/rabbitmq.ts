@@ -104,7 +104,7 @@ class RabbitmqManager {
             console.log(data);
             this.channel.ack(msg);
           });
-
+          console.log(`The message is consumed from exchange ${exchangeName}`);
           resolve(q);
         } catch (error) {
           reject(error);
