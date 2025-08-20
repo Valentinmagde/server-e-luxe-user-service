@@ -2,12 +2,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const dev = {
+const local = {
   // Environment
   env: process.env.NODE_ENV || "local",
 
   // Server config
-  nodeServerPort: process.env.NODE_SERVER_PORT || 2700,
+  nodeServerPort: process.env.NODE_SERVER_PORT || 4006,
   nodeServerHost: process.env.NODE_SERVER_HOST || "localhost",
   nodeServerPublicKey: process.env.NODE_SERVER_PUBLIC_KEY?.replace(
     /\\n/g,
@@ -15,9 +15,9 @@ const dev = {
   ),
 
   // API GATEWAY URL
-  apiGatewayUrl: process.env.API_GATEWAY_URL || "http://localhost:2000",
-  webClientUrl: process.env.WEB_CLIENT_URL || "http://localhost:7000",
-  webBackofficeUrl: process.env.WEB_BACKOFFICE_URL || "http://localhost:5000",
+  apiGatewayUrl: process.env.API_GATEWAY_URL || "http://localhost:4000",
+  webClientUrl: process.env.WEB_CLIENT_URL || "http://localhost:7001",
+  webBackofficeUrl: process.env.WEB_BACKOFFICE_URL || "http://localhost:5001",
 
   // Redis db
   redisDbPort: process.env.REDIS_DB_PORT || 6379,
@@ -47,4 +47,4 @@ const dev = {
   imageBaseUrl: process.env.IMAGE_BASE_URL || "/v1/users/images"
 };
 
-export default dev;
+export default local;
