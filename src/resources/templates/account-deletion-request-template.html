@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -11,14 +11,25 @@
       color: #333333;
       margin: 0;
       padding: 0;
-      line-height: 1.4;
+      line-height: 1.5;
+    }
+
+    table {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      border-spacing: 0;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
-      color: #333333;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: bold;
-      margin-bottom: 24px;
+      color: #333333;
+      margin-bottom: 16px;
     }
 
     p {
@@ -29,17 +40,19 @@
 
     a {
       color: #1a82e2;
+      text-decoration: none;
     }
 
     .button {
       display: inline-block;
-      background-color: #D4AF37;
-      color: #ffffff;
+      background-color: #ca8a04;
+      color: #ffffff !important;
       text-decoration: none;
       padding: 12px 24px;
       font-size: 14px;
       font-weight: bold;
       border-radius: 5px;
+      margin-top: 16px;
     }
 
     .button:hover {
@@ -47,30 +60,16 @@
     }
 
     .body-action {
-      margin: 15px 0;
       text-align: center;
+      margin: 20px 0;
     }
 
     .body-sub {
       margin-top: 32px;
       border-top: 1px solid #efefef;
-      font-size: 14px;
-      color: #555555;
-    }
-
-    .body-sub p {
       font-size: 12px;
-    }
-
-    table {
-      width: 100%;
-      border-spacing: 0;
-      margin: 0 auto;
-      max-width: 600px;
-    }
-
-    td {
-      padding: 5px 0;
+      color: #555555;
+      padding-top: 16px;
     }
 
     @media (max-width: 600px) {
@@ -86,49 +85,25 @@
 <body>
   <table>
     <tr>
-      <td>
-        <h1>Delete your account from {{product_name}}</h1>
+      <td style="padding: 20px;">
+        <h1>Confirm Your Account Deletion</h1>
         <p>Hello {{name}},</p>
-        <p>You have requested to delete your account from your {{product_name}} account.</p>
-        <p>Please click the button below to delete your account:</p>
+        <p>We received a request to delete your {{product_name}} account. This action is permanent and cannot be undone.</p>
+        <p>To proceed with deleting your account, please click the button below:</p>
 
-        <!-- Action -->
-        <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td align="center">
-              <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td align="center">
-                    <table border="0" cellspacing="0" cellpadding="0">
-                      <tr>
-                        <td>
-                          <a href="{{action_url}}" class="button" target="_blank" style="color: #ffffff;">Delete your
-                            account</a>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
+        <div class="body-action">
+          <a href="{{action_url}}" class="button" target="_blank">Delete My Account</a>
+        </div>
 
-        <p>For security, this request was received from a {{operating_system}} device using {{browser_name}}. If you did
-          not request an account deletion, please ignore this email or <a href="{{support_url}}">contact support</a> if
-          you have questions.</p>
+        <p>For your security, this request was made from a {{operating_system}} device using {{browser_name}}. 
+        If you did not request account deletion, please ignore this email or <a href="{{support_url}}">contact support</a>.</p>
 
-        <p>Thanks, <br>The {{product_name}} Team</p>
+        <p>Thank you,<br>The {{product_name}} Team</p>
 
-        <!-- Sub copy -->
-        <table class="body-sub">
-          <tr>
-            <td>
-              <p class="sub">If you’re having trouble with the button above, copy and paste the URL below into your web browser.</p>
-              <p class="sub">{{action_url}}</p>
-            </td>
-          </tr>
-        </table>
+        <div class="body-sub">
+          <p>If the button above does not work, copy and paste the following URL into your web browser:</p>
+          <p>{{action_url}}</p>
+        </div>
       </td>
     </tr>
   </table>

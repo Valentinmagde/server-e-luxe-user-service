@@ -106,7 +106,7 @@ class ConsentController {
 
       const emailData: any = {
         name: body?.name || "",
-        product_name: body?.appName || "",
+        product_name: body?.appName || "e-luxe.fr",
         action_url: url,
         operating_system: getOsFromRequest(req),
         browser_name: getBrowserFromRequest(req),
@@ -231,7 +231,7 @@ class ConsentController {
 
       const emailData: any = {
         name: body?.name || "",
-        product_name: body?.appName || "",
+        product_name: body?.appName || "e-luxe.fr",
         action_url: url,
         operating_system: getOsFromRequest(req),
         browser_name: getBrowserFromRequest(req),
