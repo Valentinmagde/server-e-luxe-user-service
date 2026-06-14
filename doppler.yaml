@@ -1,0 +1,3 @@
+setup:
+  project: e-luxe-user-service
+  config: dev
