@@ -743,6 +743,74 @@ class UserRoutes {
              *
              */
             router.post("/login", userController.login);
+
+            /**
+             * //@swagger
+             * /v1/{lang}/users/social-login:
+             *   post:
+             *     tags:
+             *     - User
+             *     operationId: socialLogin
+             *     summary: Logs a user into the system via Google/Facebook.
+             *     description: Finds or creates a user from an
+             *       already-verified social provider profile and logs them in.
+             *     parameters:
+             *      - in: path
+             *        name: lang
+             *        schema:
+             *          type: string
+             *          example: en
+             *        required: true
+             *        description: Language for the response. Supported
+             *          languages ['en', 'fr']
+             *
+             *     requestBody:
+             *       required: true
+             *       content:
+             *         application/json:
+             *           schema:
+             *             type: object
+             *             properties:
+             *               email:
+             *                 type: string
+             *                 description: The user's email.
+             *               provider:
+             *                 type: string
+             *                 description: The social provider.
+             *                 example: google
+             *               social_id:
+             *                 type: string
+             *                 description: The provider's user id.
+             *             required:
+             *               - email
+             *               - provider
+             *               - social_id
+             *     responses:
+             *       200:
+             *         description: The user has successfully logged in.
+             *       '400':
+             *         description: Bad Request.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/400'
+             *
+             *       '412':
+             *         description: Precondition Failed.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/412'
+             *
+             *       '500':
+             *         description: Internal Server Error.
+             *         content:
+             *          application/json:
+             *             schema:
+             *              $ref: '#/responses/schemas/500'
+             *
+             */
+            router.post("/social-login", userController.socialLogin);
           })
         );
 

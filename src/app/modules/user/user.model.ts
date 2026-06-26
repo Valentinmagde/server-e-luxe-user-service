@@ -143,6 +143,13 @@ const userSchema = new mongoose.Schema(
       select: false,
       default: passwordHash.createHash("12345678"),
     },
+    provider: {
+      type: String,
+      required: false,
+      default: "local",
+      enum: ["local", "google", "facebook"],
+    },
+    social_id: { type: String, required: false },
     phone: { type: String, required: false },
     address: { type: String, required: false },
     gender: { type: mongoose.Schema.Types.ObjectId, ref: "gender" },

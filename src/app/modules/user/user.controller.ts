@@ -479,6 +479,83 @@ class UserController {
   }
 
   /**
+   * Social login (Google / Facebook) route handler. The gateway calls this
+   * with an already-verified provider profile.
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2026-06-26
+   *
+   * @param {Request} req the http request
+   * @param {Response} res the http response
+   *
+   * @return {Promise<void>} the eventual completion or failure
+   */
+  public async socialLogin(req: Request, res: Response): Promise<void> {
+    const validationRule = {
+      email: "required|string|email",
+      provider: "required|string|in:google,facebook",
+      social_id: "required|string",
+    };
+
+    await validator
+      .validator(
+        req.body,
+        validationRule,
+        {},
+        (err: Errors, status: boolean) => {
+          if (!status) {
+            const response = {
+              status: statusCode.httpPreconditionFailed,
+              errNo: errorNumbers.validator,
+              errMsg: err.errors,
+            };
+
+            return customResponse.error(response, res);
+          } else {
+            userService
+              .socialLogin(req.body)
+              .then((result) => {
+                if (result === "INACTIVE_USER") {
+                  const response = {
+                    status: statusCode.httpBadRequest,
+                    errNo: errorNumbers.badLoginCredentials,
+                    errMsg: i18n.__("user.login.inactiveUser"),
+                  };
+
+                  return customResponse.error(response, res);
+                } else {
+                  const response = {
+                    status: statusCode.httpOk,
+                    data: result,
+                  };
+
+                  return customResponse.success(response, res);
+                }
+              })
+              .catch((error) => {
+                const response = {
+                  status: error?.status || statusCode.httpInternalServerError,
+                  errNo: errorNumbers.genericError,
+                  errMsg: error?.message || error,
+                };
+
+                return customResponse.error(response, res);
+              });
+          }
+        }
+      )
+      .catch((error) => {
+        const response = {
+          status: error?.status || statusCode.httpInternalServerError,
+          errNo: errorNumbers.genericError,
+          errMsg: error?.message || error,
+        };
+
+        return customResponse.error(response, res);
+      });
+  }
+
+  /**
    * Register route handler
    *
    * @author Valentin Magde <valentinmagde@gmail.com>

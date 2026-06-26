@@ -71,6 +71,88 @@ class UserService {
   }
 
   /**
+   * Social login (Google / Facebook). Finds the user by email, creating
+   * one on first sign-in, then returns it in the same shape as login().
+   *
+   * @author Valentin Magde <valentinmagde@gmail.com>
+   * @since 2026-06-26
+   *
+   * @param {any} data the verified provider profile
+   * @return {Promise<unknown>} the eventual completion or failure
+   */
+  public async socialLogin(data: {
+    email: string;
+    first_name?: string;
+    last_name?: string;
+    name?: string;
+    image?: string;
+    provider: string;
+    social_id: string;
+  }): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          let user: any = await User.findOne({ email: data.email })
+            .populate("gender")
+            .populate("roles")
+            .populate("role");
+
+          if (user && user.status === "Inactive") {
+            resolve("INACTIVE_USER");
+            return;
+          }
+
+          if (!user) {
+            const newUser = new User({
+              email: data.email,
+              first_name: data.first_name,
+              last_name: data.last_name,
+              name: data.name,
+              image: data.image,
+              provider: data.provider,
+              social_id: data.social_id,
+            });
+
+            user = await newUser.save();
+
+            await referralService.store({
+              userId: user._id,
+              referredBy: null,
+            });
+          } else if (user.provider === "local") {
+            await User.findOneAndUpdate(
+              { email: data.email },
+              { $set: { provider: data.provider, social_id: data.social_id } }
+            );
+          }
+
+          await User.findOneAndUpdate(
+            { email: data.email },
+            { $set: { online: true } }
+          );
+
+          const loginRes = {
+            _id: user._id,
+            name: user.name,
+            username: user.username,
+            last_name: user.last_name,
+            first_name: user.first_name,
+            email: user.email,
+            gender: user.gender,
+            image: user.image,
+            role: user.role,
+            roles: user.roles,
+          };
+
+          resolve(loginRes);
+        } catch (error) {
+          reject(error);
+        }
+      })();
+    });
+  }
+
+  /**
    * Get user details
    *
    * @author Valentin Magde <valentinmagde@gmail.com>
